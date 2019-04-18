@@ -7,7 +7,20 @@ class GameWorld {
         this.rightPressed = false;
         this.leftPressed = false;
 
-        this.interval = setInterval(this.gameLoop.bind(this), 10);
+        this.start();
+    }
+
+    start() {
+        if (!this.requestId) {
+            this.requestId = requestAnimationFrame(this.gameLoop.bind(this));
+        }
+    }
+
+    stop() {
+        if (this.requestId) {
+            cancelAnimationFrame(this.requestId);
+            this.requestId = undefined;
+        }
     }
 
     addEventListeners() {
@@ -46,19 +59,23 @@ class GameWorld {
     }
 
     gameOver() {
-        clearInterval(this.interval);
-        alert('GAME OVER');
         document.location.reload();
+        alert('GAME OVER');
+        this.stop();
     }
 
     gameLoop() {
+        this.requestId = undefined;
+
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.ball.handleCollisionWith(this.canvas);
         this.ball.move();
+        this.ball.handleCollisionWith(this.canvas);
         this.ball.draw(this.ctx);
 
         this.paddle.move(this.leftPressed, this.rightPressed, this.canvas.width);
         this.paddle.draw(this.ctx, this.canvas.height);
+
+        this.start();
     }
 }
