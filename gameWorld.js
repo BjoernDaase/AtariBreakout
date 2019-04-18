@@ -29,20 +29,20 @@ class GameWorld {
     }
 
     addGameElements() {
-        this.ball = new Ball( {
-            x: this.canvas.width / 2,
-            y: this.canvas.height - 30,
-            dx: 2,
-            dy: -2,
-            radius: 10,
-            gameWorld: this
-        } );
-        this.paddle = new Paddle( {
-            height: 10,
-            width: 75,
-            gameFieldWidth: canvas.width,
-            movementDistance: 7
-        } );
+        this.ball = new Ball(
+            this.canvas.width / 2,
+            this.canvas.height - 30,
+            10,
+            2,
+            -2,
+            this
+        );
+        this.paddle = new Paddle(
+            75,
+            10,
+            7,
+            this
+        );
     }
 
     gameOver() {

@@ -1,9 +1,10 @@
 class Paddle {
-    constructor(config) {
-        this.width = config.width;
-        this.height = config.height;
-        this.x = (config.gameFieldWidth - this.width) / 2;
-        this.movementDistance = config.movementDistance;
+    constructor(width, height, movementDistance, gameWorld) {
+        this.width = width;
+        this.height = height;
+        this.x = (gameWorld.canvas.width - this.width) / 2;
+        this.movementDistance = movementDistance;
+        this.gameWorld = gameWorld;
         this.color = '#0095DD';
     }
 
