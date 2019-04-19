@@ -14,7 +14,7 @@ class Ball {
         this.y += this.dy;
     }
 
-    handleCollisionWith(canvas) {
+    handleCollisionWithCanvas(canvas) {
         if (this.x + this.dx > canvas.width - this.radius || this.x + this.dx < this.radius) {
             this.dx *= -1;
             this.setRandomColor();
@@ -25,6 +25,14 @@ class Ball {
         } else if(this.y + this.dy > canvas.height - this.radius) {
             this.gameWorld.gameOver();
         }
+    }
+
+    handleCollisionWithBrick(brick) {
+        if(this.x > brick.x && this.x < brick.x + brick.width && this.y > brick.y && this.y < brick.y + brick.height) {
+            this.dy *= -1;
+            return true;
+        }
+        return false;
     }
 
     draw(ctx) {

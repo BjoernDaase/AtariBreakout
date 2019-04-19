@@ -23,6 +23,12 @@ class GameWorld {
         }
     }
 
+    gameOver() {
+        document.location.reload();
+        alert('GAME OVER');
+        this.stop();
+    }
+
     addEventListeners() {
         document.addEventListener('keydown', e => {
             if (e.key === 'Right' || e.key === 'ArrowRight') {
@@ -40,6 +46,8 @@ class GameWorld {
             }
         });
     }
+
+
 
     addGameElements() {
         this.addBall();
@@ -96,17 +104,34 @@ class GameWorld {
         }
     }
 
-    drawBricks() {
-        const context = this.ctx;
-        this.bricks.forEach(function(brick) {
-            brick.draw(context);
-        });
+
+
+    moveObjects() {
+        this.ball.move();
+        this.paddle.move(this.leftPressed, this.rightPressed, this.canvas.width);
     }
 
-    gameOver() {
-        document.location.reload();
-        alert('GAME OVER');
-        this.stop();
+    handleCollisions() {
+        this.ball.handleCollisionWithCanvas(this.canvas);
+
+        this.bricks.forEach( function(brick) {
+            if (this.ball.handleCollisionWithBrick(brick)) {
+                const brickIndex = this.bricks.indexOf(brick);
+                this.bricks.splice(brickIndex, 1);
+            }
+        }.bind(this));
+    }
+
+    drawBricks() {
+        this.bricks.forEach(function(brick) {
+            brick.draw(this.ctx);
+        }.bind(this));
+    }
+
+    drawObjects() {
+        this.drawBricks();
+        this.ball.draw(this.ctx);
+        this.paddle.draw(this.ctx, this.canvas.height);
     }
 
     gameLoop() {
@@ -114,14 +139,9 @@ class GameWorld {
 
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.drawBricks();
-
-        this.ball.move();
-        this.ball.handleCollisionWith(this.canvas);
-        this.ball.draw(this.ctx);
-
-        this.paddle.move(this.leftPressed, this.rightPressed, this.canvas.width);
-        this.paddle.draw(this.ctx, this.canvas.height);
+        this.moveObjects();
+        this.handleCollisions();
+        this.drawObjects();
 
         this.start();
     }
