@@ -15,28 +15,20 @@ class Ball {
     }
 
     handleCollisionWithCanvas(canvas) {
-        if (this.x + this.dx > canvas.width - this.radius || this.x + this.dx < this.radius) {
+        if (this.x > canvas.width - this.radius || this.x < this.radius) {
             this.dx *= -1;
             this.setRandomColor();
         }
-        if (this.y + this.dy < this.radius) {
+        if (this.y < this.radius) {
             this.dy *= -1;
             this.setRandomColor();
-        } else if(this.y + this.dy > canvas.height - this.radius) {
+        } else if(this.y > canvas.height - this.radius) {
             this.gameWorld.gameOver();
         }
     }
 
-    handleCollisionWithPaddle(paddle) {
-        if (this.y + this.radius > gameWorld.canvas.height - paddle.height) {
-            if (this.x > paddle.x && this.x < paddle.x + paddle.width) {
-                this.dy *= -1;
-            }
-        }
-    }
-
-    handleCollisionWithBrick(brick) {
-        if(this.x > brick.x && this.x < brick.x + brick.width && this.y > brick.y && this.y < brick.y + brick.height) {
+    handleCollisionWithRect(aBrickOrPaddle) {
+        if(this.x + this.radius > aBrickOrPaddle.x && this.x - this.radius < aBrickOrPaddle.x + aBrickOrPaddle.width && this.y + this.radius > aBrickOrPaddle.y && this.y - this.radius < aBrickOrPaddle.y + aBrickOrPaddle.height) {
             this.dy *= -1;
             return true;
         }

@@ -120,10 +120,10 @@ class GameWorld {
 
     handleCollisions() {
         this.ball.handleCollisionWithCanvas(this.canvas);
-        this.ball.handleCollisionWithPaddle(this.paddle);
+        this.ball.handleCollisionWithRect(this.paddle);
 
         this.bricks.forEach( function(brick) {
-            if (this.ball.handleCollisionWithBrick(brick)) {
+            if (this.ball.handleCollisionWithRect(brick)) {
                 const brickIndex = this.bricks.indexOf(brick);
                 this.bricks.splice(brickIndex, 1);
                 this.score++;
@@ -140,7 +140,7 @@ class GameWorld {
     drawObjects() {
         this.drawBricks();
         this.ball.draw(this.ctx);
-        this.paddle.draw(this.ctx, this.canvas.height);
+        this.paddle.draw(this.ctx);
     }
 
     drawScore() {

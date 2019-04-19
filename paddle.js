@@ -3,6 +3,7 @@ class Paddle {
         this.width = width;
         this.height = height;
         this.x = (gameWorld.canvas.width - this.width) / 2;
+        this.y = gameWorld.canvas.height - this.height;
         this.movementDistance = movementDistance;
         this.gameWorld = gameWorld;
         this.color = '#0095DD';
@@ -17,10 +18,10 @@ class Paddle {
         }
     }
 
-    draw(ctx, canvasHeight) {
+    draw(ctx) {
         ctx.fillStyle = this.color;
         ctx.beginPath();
-        ctx.rect(this.x, canvasHeight - this.height, this.width, this.height);
+        ctx.rect(this.x, this.y, this.width, this.height);
         ctx.fill();
         ctx.closePath();
     }
