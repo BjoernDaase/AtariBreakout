@@ -7,6 +7,10 @@ class GameWorld {
         this.rightPressed = false;
         this.leftPressed = false;
 
+        this.score = 0;
+        this.scoreFont = "16px Arial";
+        this.scoreColor = "#0095DD";
+
         this.start();
     }
 
@@ -116,11 +120,13 @@ class GameWorld {
 
     handleCollisions() {
         this.ball.handleCollisionWithCanvas(this.canvas);
+        this.ball.handleCollisionWithPaddle(this.paddle);
 
         this.bricks.forEach( function(brick) {
             if (this.ball.handleCollisionWithBrick(brick)) {
                 const brickIndex = this.bricks.indexOf(brick);
                 this.bricks.splice(brickIndex, 1);
+                this.score++;
             }
         }.bind(this));
     }
@@ -137,6 +143,12 @@ class GameWorld {
         this.paddle.draw(this.ctx, this.canvas.height);
     }
 
+    drawScore() {
+        this.ctx.font = this.scoreFont;
+        this.ctx.fillStyle = this.scoreColor;
+        this.ctx.fillText("Score: " + this.score, 8, 20);
+    }
+
     gameLoop() {
         this.requestId = undefined;
 
@@ -144,6 +156,7 @@ class GameWorld {
         this.moveObjects();
         this.handleCollisions();
         this.drawObjects();
+        this.drawScore();
 
         this.start();
     }

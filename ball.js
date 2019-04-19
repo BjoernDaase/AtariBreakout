@@ -27,6 +27,14 @@ class Ball {
         }
     }
 
+    handleCollisionWithPaddle(paddle) {
+        if (this.y + this.radius > gameWorld.canvas.height - paddle.height) {
+            if (this.x > paddle.x && this.x < paddle.x + paddle.width) {
+                this.dy *= -1;
+            }
+        }
+    }
+
     handleCollisionWithBrick(brick) {
         if(this.x > brick.x && this.x < brick.x + brick.width && this.y > brick.y && this.y < brick.y + brick.height) {
             this.dy *= -1;
