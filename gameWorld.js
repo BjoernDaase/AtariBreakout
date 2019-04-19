@@ -105,6 +105,9 @@ class GameWorld {
     }
 
 
+    clearCanvas() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
 
     moveObjects() {
         this.ball.move();
@@ -137,8 +140,7 @@ class GameWorld {
     gameLoop() {
         this.requestId = undefined;
 
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
+        this.clearCanvas();
         this.moveObjects();
         this.handleCollisions();
         this.drawObjects();
