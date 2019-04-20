@@ -33,6 +33,14 @@ class GameWorld {
         this.stop();
     }
 
+    checkGameWon() {
+        if (!this.bricks.length) {
+            document.location.reload();
+            alert('GAME WON');
+            this.stop();
+        }
+    }
+
     addEventListeners() {
         document.addEventListener('keydown', e => {
             if (e.key === 'Right' || e.key === 'ArrowRight') {
@@ -63,8 +71,8 @@ class GameWorld {
         const ballX = this.canvas.width / 2;
         const ballY = this.canvas.height - 30;
         const ballRadius = 10;
-        const ballDx = 2;
-        const ballDy = -2;
+        const ballDx = 4;
+        const ballDy = -4;
 
         this.ball = new Ball(
             ballX,
@@ -120,10 +128,10 @@ class GameWorld {
 
     handleCollisions() {
         this.ball.handleCollisionWithCanvas(this.canvas);
-        this.ball.handleCollisionWithRect(this.paddle);
+        this.ball.handleCollisionWithPaddle(this.paddle);
 
         this.bricks.forEach( function(brick) {
-            if (this.ball.handleCollisionWithRect(brick)) {
+            if (this.ball.handleCollisionWithBrick(brick)) {
                 const brickIndex = this.bricks.indexOf(brick);
                 this.bricks.splice(brickIndex, 1);
                 this.score++;
@@ -157,6 +165,7 @@ class GameWorld {
         this.handleCollisions();
         this.drawObjects();
         this.drawScore();
+        this.checkGameWon();
 
         this.start();
     }

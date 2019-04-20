@@ -27,8 +27,15 @@ class Ball {
         }
     }
 
-    handleCollisionWithRect(aBrickOrPaddle) {
-        if(this.x + this.radius > aBrickOrPaddle.x && this.x - this.radius < aBrickOrPaddle.x + aBrickOrPaddle.width && this.y + this.radius > aBrickOrPaddle.y && this.y - this.radius < aBrickOrPaddle.y + aBrickOrPaddle.height) {
+    handleCollisionWithPaddle(paddle) {
+        if(this.x + this.radius > paddle.x && this.x - this.radius < paddle.x + paddle.width && this.y + this.radius > paddle.y && this.y - this.radius < paddle.y + paddle.height) {
+            this.dy = -Math.abs(this.dy);
+            return true;
+        }
+    }
+
+    handleCollisionWithBrick(brick) {
+        if(this.x + this.radius > brick.x && this.x - this.radius < brick.x + brick.width && this.y + this.radius > brick.y && this.y - this.radius < brick.y + brick.height) {
             this.dy *= -1;
             return true;
         }
